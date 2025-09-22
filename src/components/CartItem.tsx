@@ -5,15 +5,21 @@ import { updateQuantity, removeFromCart } from "../store/reducers/action";
 interface Props {
     item: CartItemType,
     index: number;
+    onDeleteSuccess: () => void;
 }
 
-const CartItem: React.FC<Props> = ({item, index}) => {
+const CartItem: React.FC<Props> = ({item, index, onDeleteSuccess}) => {
     const dispatch = useDispatch();
 
     const handleUpdate = (quantity: number) => {
         if (quantity >= 1 && quantity <= 10) {
             dispatch(updateQuantity(item.product.id, quantity));
         }
+    }
+
+    const handleDelete = () => {
+      dispatch(removeFromCart(item.product.id));
+      onDeleteSuccess();
     }
 
     return (
@@ -40,7 +46,7 @@ const CartItem: React.FC<Props> = ({item, index}) => {
         </button>
         <button
           className="bg-red-500 text-white px-2 py-1 rounded"
-          onClick={() => dispatch(removeFromCart(item.product.id))}
+          onClick={handleDelete}
         >
           Delete
         </button>

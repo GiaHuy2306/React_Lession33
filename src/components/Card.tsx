@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import CartItem from "./CartItem";
@@ -11,6 +11,8 @@ const Cart: React.FC = () => {
     (sum, i) => sum + i.product.price * i.quantity,
     0
   );
+
+  const [ message, setMessage ] = useState("");
 
   return (
     <div className="w-full md:w-1/3 bg-white rounded shadow">
@@ -34,7 +36,15 @@ const Cart: React.FC = () => {
             </thead>
             <tbody>
               {items.map((item: CardItem, idx) => (
-                <CartItem key={item.product.id} item={item} index={idx} />
+                <CartItem 
+                key={item.product.id} 
+                item={item} 
+                index={idx} 
+                onDeleteSuccess = {() => {
+                  setMessage("Delete cart successfully");
+                  setTimeout(() => setMessage(""), 2000);
+                }}
+                />
               ))}
             </tbody>
           </table>
@@ -46,6 +56,12 @@ const Cart: React.FC = () => {
           <div className="p-2 text-right font-bold text-red-600 text-lg">
             {total} USD
           </div>
+
+          {message && (
+            <div className="p-2 text-green-600 text-sm font-medium">
+              {message}
+            </div>
+          )}
         </>
       )}
     </div>
