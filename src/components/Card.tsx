@@ -19,7 +19,7 @@ const Cart: React.FC = () => {
       </h2>
 
       {items.length === 0 ? (
-        <p className="p-4">Your cart is empty</p>
+        <p className="text-gray-500 italic">Empty product in your cart</p>
       ) : (
         <>
           <table className="w-full text-sm border">
